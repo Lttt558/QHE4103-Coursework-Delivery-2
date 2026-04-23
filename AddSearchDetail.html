@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>车辆交易平台</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            background-color: var(--primary-color) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+        
+        .navbar-brand i {
+            color: var(--secondary-color);
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.85) !important;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
+        }
+        
+        .nav-link.active {
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1a2530 100%);
+            color: white;
+            padding: 60px 0 40px;
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .page-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            border-bottom: none;
+            padding: 15px 20px;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border: none;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background-color: var(--accent-color);
+            border: none;
+        }
+        
+        .form-control, .form-select {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+        
+        .car-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .car-card {
+            height: 100%;
+        }
+        
+        .car-detail-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        
+        .car-specs {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .spec-item {
+            flex: 1 0 50%;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .spec-label {
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .spec-value {
+            font-weight: 500;
+        }
+        
+        .price-tag {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+        
+        .price-tag small {
+            font-size: 1rem;
+            color: #666;
+        }
+        
+        .footer {
+            background-color: var(--primary-color);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .footer h5 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .search-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+        
+        .car-list {
+            margin-top: 20px;
+        }
+        
+        .car-feature {
+            margin-bottom: 8px;
+        }
+        
+        .car-feature i {
+            color: var(--secondary-color);
+            width: 20px;
+            margin-right: 8px;
+        }
+        
+        .car-year {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .car-make {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .car-model {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .car-price {
+            font-weight: 700;
+            color: var(--accent-color);
+            font-size: 1.4rem;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .featured-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 40px 0 20px;
+            }
+            
+            .page-title {
+                font-size: 1.8rem;
+            }
+            
+            .car-detail-image {
+                height: 200px;
+            }
+            
+            .spec-item {
+                flex: 1 0 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-car"></i> AutoTrade
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="search.html">
+                            <i class="fas fa-search"></i> 搜索车辆
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="add-car.html">
+                            <i class="fas fa-plus-circle"></i> 发布车辆
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-user"></i> 我的账户
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 成功提示消息 -->
+    <div class="notification">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            <span id="notification-text">操作成功！</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    </div>
+
+    <!-- 主内容区域 -->
+    <div class="container" id="main-content">
+        <!-- 这里将通过JavaScript动态加载不同页面的内容 -->
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5>关于AutoTrade</h5>
+                    <p>我们提供最可靠的车辆交易平台，连接买家和卖家，让车辆交易更加简单、透明和安全。</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>快速链接</h5>
+                    <ul class="footer-links">
+                        <li><a href="search.html"><i class="fas fa-search me-2"></i>搜索车辆</a></li>
+                        <li><a href="add-car.html"><i class="fas fa-plus-circle me-2"></i>发布车辆</a></li>
+                        <li><a href="#"><i class="fas fa-question-circle me-2"></i>帮助中心</a></li>
+                        <li><a href="#"><i class="fas fa-phone me-2"></i>联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>联系信息</h5>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> 北京市朝阳区汽车交易中心</li>
+                        <li><i class="fas fa-phone me-2"></i> 400-123-4567</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@autotrade.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="copyright">
+                        <p>&copy; 2023 AutoTrade 车辆交易平台. 保留所有权利.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // 页面数据
+        const pageData = {
+            // 发布车辆页
+            'add-car': {
+                title: '发布车辆',
+                subtitle: '在这里发布您的车辆信息，让买家轻松找到您的爱车',
+                content: `
+                    <section class="hero-section">
+                        <div class="container">
+                            <h1 class="page-title">发布车辆</h1>
+                            <p class="page-subtitle">在这里发布您的车辆信息，让买家轻松找到您的爱车</p>
+                        </div>
+                    </section>
+                    
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-10">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <i class="fas fa-car me-2"></i> 车辆信息
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <form id="addCarForm">
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="carMake" class="form-label">品牌 <span class="text-danger">*</span></label>
+                                                    <select class="form-select" id="carMake" required>
+                                                        <option value="">选择品牌</option>
+                                                        <option value="Toyota">丰田</option>
+                                                        <option value="Honda">本田</option>
+                                                        <option value="BMW">宝马</option>
+                                                        <option value="Mercedes-Benz">梅赛德斯-奔驰</option>
+                                                        <option value="Audi">奥迪</option>
+                                                        <option value="Ford">福特</option>
+                                                        <option value="Tesla">特斯拉</option>
+                                                        <option value="Volkswagen">大众</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="carModel" class="form-label">车型 <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="carModel" placeholder="例如：Camry, 3 Series, Model 3" required>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="carYear" class="form-label">年份 <span class="text-danger">*</span></label>
+                                                    <select class="form-select" id="carYear" required>
+                                                        <option value="">选择年份</option>
+                                                        ${(() => {
+                                                            let options = '';
+                                                            const currentYear = new Date().getFullYear();
+                                                            for (let year = currentYear; year >= 2000; year--) {
+                                                                options += `<option value="${year}">${year}</option>`;
+                                                            }
+                                                            return options;
+                                                        })()}
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="carPrice" class="form-label">价格 (¥) <span class="text-danger">*</span></label>
+                                                    <div class="input-group">
+                                                        <input type="number" class="form-control" id="carPrice" placeholder="例如：150000" required>
+                                                        <span class="input-group-text">元</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="carMileage" class="form-label">里程数</label>
+                                                    <div class="input-group">
+                                                        <input type="number" class="form-control" id="carMileage" placeholder="例如：50000">
+                                                        <span class="input-group-text">公里</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="carColor" class="form-label">颜色</label>
+                                                    <input type="text" class="form-control" id="carColor" placeholder="例如：白色, 黑色, 银色">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="carTransmission" class="form-label">变速箱</label>
+                                                    <select class="form-select" id="carTransmission">
+                                                        <option value="">选择变速箱类型</option>
+                                                        <option value="automatic">自动</option>
+                                                        <option value="manual">手动</option>
+                                                        <option value="semi-automatic">半自动</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="carFuel" class="form-label">燃料类型</label>
+                                                    <select class="form-select" id="carFuel">
+                                                        <option value="">选择燃料类型</option>
+                                                        <option value="petrol">汽油</option>
+                                                        <option value="diesel">柴油</option>
+                                                        <option value="electric">电动</option>
+                                                        <option value="hybrid">混合动力</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="carDescription" class="form-label">车辆描述 <span class="text-danger">*</span></label>
+                                                <textarea class="form-control" id="carDescription" rows="4" placeholder="请详细描述您的车辆，包括车况、历史、任何改装或特殊功能等..." required></textarea>
+                                            </div>
+                                            
+                                            <div class="mb-4">
+                                                <label for="carImages" class="form-label">车辆图片</label>
+                                                <input class="form-control" type="file" id="carImages" accept="image/*" multiple>
+                                                <div class="form-text">最多可上传6张图片。建议尺寸：1200x800像素。</div>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="sellerName" class="form-label">卖家姓名 <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="sellerName" placeholder="请输入您的姓名" required>
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="sellerPhone" class="form-label">联系电话 <span class="text-danger">*</span></label>
+                                                    <input type="tel" class="form-control" id="sellerPhone" placeholder="例如：13800138000" required>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="sellerEmail" class="form-label">电子邮箱</label>
+                                                    <input type="email" class="form-control" id="sellerEmail" placeholder="例如：example@email.com">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                                <button type="button" class="btn btn-secondary me-md-2" id="previewBtn">预览</button>
+                                                <button type="submit" class="btn btn-primary">发布车辆</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            
+            // 搜索页
+            'search': {
+                title: '搜索车辆',
+                subtitle: '按车型和年份搜索您心仪的车辆',
+                content: `
+                    <section class="hero-section">
+                        <div class="container">
+                            <h1 class="page-title">搜索车辆</h1>
+                            <p class="page-subtitle">按车型和年份搜索您心仪的车辆</p>
+                        </div>
+                    </section>
+                    
+                    <div class="container">
+                        <div class="search-container">
+                            <form id="searchForm">
+                                <div class="row">
+                                    <div class="col-md-5 mb-3">
+                                        <label for="searchMake" class="form-label">品牌</label>
+                                        <select class="form-select" id="searchMake">
+                                            <option value="">所有品牌</option>
+                                            <option value="Toyota">丰田</option>
+                                            <option value="Honda">本田</option>
+                                            <option value="BMW">宝马</option>
+                                            <option value="Mercedes-Benz">梅赛德斯-奔驰</option>
+                                            <option value="Audi">奥迪</option>
+                                            <option value="Ford">福特</option>
+                                            <option value="Tesla">特斯拉</option>
+                                            <option value="Volkswagen">大众</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-5 mb-3">
+                                        <label for="searchModel" class="form-label">车型</label>
+                                        <input type="text" class="form-control" id="searchModel" placeholder="输入车型，例如：Camry, 3 Series">
+                                    </div>
+                                    <div class="col-md-2 mb-3">
+                                        <label for="searchYear" class="form-label">年份</label>
+                                        <select class="form-select" id="searchYear">
+                                            <option value="">所有年份</option>
+                                            ${(() => {
+                                                let options = '';
+                                                const currentYear = new Date().getFullYear();
+                                                for (let year = currentYear; year >= 2010; year--) {
+                                                    options += `<option value="${year}">${year}</option>`;
+                                                }
+                                                return options;
+                                            })()}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 mb-3">
+                                        <label for="minPrice" class="form-label">最低价格 (¥)</label>
+                                        <input type="number" class="form-control" id="minPrice" placeholder="例如：50000">
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="maxPrice" class="form-label">最高价格 (¥)</label>
+                                        <input type="number" class="form-control" id="maxPrice" placeholder="例如：200000">
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="carType" class="form-label">车辆类型</label>
+                                        <select class="form-select" id="carType">
+                                            <option value="">所有类型</option>
+                                            <option value="sedan">轿车</option>
+                                            <option value="suv">SUV</option>
+                                            <option value="truck">卡车</option>
+                                            <option value="electric">电动车</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 d-flex align-items-end mb-3">
+                                        <button type="submit" class="btn btn-primary w-100">
+                                            <i class="fas fa-search me-2"></i>搜索车辆
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h3 class="mb-3">搜索结果 <span id="resultCount" class="text-primary">(8 辆车)</span></h3>
+                            </div>
+                        </div>
+                        
+                        <div class="row car-list" id="carResults">
+                            <!-- 车辆卡片将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
+                `
+            },
+            
+            // 车辆详情页
+            'car-details': {
+                title: '车辆详情',
+                subtitle: '查看车辆详细信息并联系卖家',
+                content: `
+                    <section class="hero-section">
+                        <div class="container">
+                            <h1 class="page-title">车辆详情</h1>
+                            <p class="page-subtitle">查看车辆详细信息并联系卖家</p>
+                        </div>
+                    </section>
+                    
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="card mb-4">
+                                    <div id="carImageCarousel" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-indicators">
+                                            <button type="button" data-bs-target="#carImageCarousel" data-bs-slide-to="0" class="active"></button>
+                                            <button type="button" data-bs-target="#carImageCarousel" data-bs-slide-to="1"></button>
+                                            <button type="button" data-bs-target="#carImageCarousel" data-bs-slide-to="2"></button>
+                                            <button type="button" data-bs-target="#carImageCarousel" data-bs-slide-to="3"></button>
+                                        </div>
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active">
+                                                <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" class="d-block w-100 car-detail-image" alt="Toyota Camry">
+                                            </div>
+                                            <div class="carousel-item">
+                                                <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" class="d-block w-100 car-detail-image" alt="Toyota Camry Interior">
+                                            </div>
+                                            <div class="carousel-item">
+                                                <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" class="d-block w-100 car-detail-image" alt="Toyota Camry Dashboard">
+                                            </div>
+                                            <div class="carousel-item">
+                                                <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&w=1200&q=80" class="d-block w-100 car-detail-image" alt="Toyota Camry Back">
+                                            </div>
+                                        </div>
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#carImageCarousel" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon"></span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#carImageCarousel" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon"></span>
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start mb-3">
+                                            <div>
+                                                <span class="car-year">2020</span>
+                                                <h2 class="mb-1">丰田 Camry</h2>
+                                                <p class="text-muted">2.5L 豪华版</p>
+                                            </div>
+                                            <div class="price-tag">¥158,000</div>
+                                        </div>
+                                        
+                                        <div class="car-specs">
+                                            <div class="spec-item">
+                                                <div class="spec-label">里程数</div>
+                                <div class="spec-value">45,000 公里</div>
+                                            </div>
+                                            <div class="spec-item">
+                                                <div class="spec-label">变速箱</div>
+                                                <div class="spec-value">自动</div>
+                                            </div>
+                                            <div class="spec-item">
+                                                <div class="spec-label">燃料类型</div>
+                                                <div class="spec-value">汽油</div>
+                                            </div>
+                                            <div class="spec-item">
+                                                <div class="spec-label">颜色</div>
+                                                <div class="spec-value">白色</div>
+                                            </div>
+                                            <div class="spec-item">
+                                                <div class="spec-label">车辆类型</div>
+                                                <div class="spec-value">轿车</div>
+                                            </div>
+                                            <div class="spec-item">
+                                                <div class="spec-label">座位数</div>
+                                                <div class="spec-value">5座</div>
+                                            </div>
+                                            <div class="spec-item">
+                                                <div class="spec-label">排放标准</div>
+                                                <div class="spec-value">国VI</div>
+                                            </div>
+                                            <div class="spec-item">
+                                                <div class="spec-label">上牌时间</div>
+                                                <div class="spec-value">2020年6月</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <h5 class="mt-4 mb-3">车辆描述</h5>
+                                        <p>2020年丰田Camry 2.5L豪华版，一手车，全程4S店保养，无事故，无泡水，车况极佳。配备：真皮座椅、全景天窗、自动空调、倒车影像、导航系统、电动座椅、座椅加热、自适应巡航、盲点监测等。车辆保养良好，内饰如新，定期保养记录齐全。因换车出售，价格可小议。欢迎预约看车！</p>
+                                        
+                                        <h5 class="mt-4 mb-3">车辆配置</h5>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <span><i class="fas fa-check text-success me-2"></i> 天窗</span>
+                                                    </li>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <span><i class="fas fa-check text-success me-2"></i> 倒车影像</span>
+                                                    </li>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <span><i class="fas fa-check text-success me-2"></i> 导航系统</span>
+                                                    </li>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <span><i class="fas fa-check text-success me-2"></i> 座椅加热</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <span><i class="fas fa-check text-success me-2"></i> 自适应巡航</span>
+                                                    </li>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <span><i class="fas fa-check text-success me-2"></i> 盲点监测</span>
+                                                    </li>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <span><i class="fas fa-check text-success me-2"></i> 电动座椅</span>
+                                                    </li>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <span><i class="fas fa-check text-success me-2"></i> 自动空调</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-user me-2"></i> 卖家信息
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="text-center mb-3">
+                                            <div class="mb-3">
+                                                <i class="fas fa-user-circle fa-4x text-secondary"></i>
+                                            </div>
+                                            <h5>张先生</h5>
+                                            <p class="text-muted">个人卖家</p>
+                                        </div>
+                                        
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <span><i class="fas fa-phone me-2"></i> 联系电话</span>
+                                                <span>138****5678</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <span><i class="fas fa-envelope me-2"></i> 电子邮箱</span>
+                                                <span>zhang@example.com</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <span><i class="fas fa-map-marker-alt me-2"></i> 所在城市</span>
+                                                <span>北京</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <span><i class="fas fa-clock me-2"></i> 发布时间</span>
+                                                <span>2023年7月15日</span>
+                                            </li>
+                                        </ul>
+                                        
+                                        <div class="d-grid mt-3">
+                                            <button class="btn btn-primary" id="contactSellerBtn">
+                                                <i class="fas fa-comment-dots me-2"></i> 联系卖家
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card">
+                                    <div class="card-header">
+                                        <i class="fas fa-shield-alt me-2"></i> 购车保障
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-unstyled">
+                                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> 车源审核</li>
+                                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> 事故车排查</li>
+                                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> 手续代办服务</li>
+                                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> 7天无理由退车</li>
+                                            <li><i class="fas fa-check-circle text-success me-2"></i> 1年/2万公里质保</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        };
+        
+        // 搜索页车辆数据
+        const carData = [
+            {
+                id: 1,
+                make: "Toyota",
+                model: "Camry",
+                year: 2020,
+                price: 158000,
+                mileage: "45,000",
+                fuelType: "汽油",
+                transmission: "自动",
+                image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+                featured: true
+            },
+            {
+                id: 2,
+                make: "BMW",
+                model: "3 Series",
+                year: 2019,
+                price: 285000,
+                mileage: "60,000",
+                fuelType: "汽油",
+                transmission: "自动",
+                image: "https://images.unsplash.com/photo-1555212697-194d092e3b8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 3,
+                make: "Honda",
+                model: "CR-V",
+                year: 2021,
+                price: 195000,
+                mileage: "25,000",
+                fuelType: "混合动力",
+                transmission: "自动",
+                image: "https://images.unsplash.com/photo-1566474767496-1527c5d78c71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w-600&q=80"
+            },
+            {
+                id: 4,
+                make: "Tesla",
+                model: "Model 3",
+                year: 2022,
+                price: 285000,
+                mileage: "15,000",
+                fuelType: "电动",
+                transmission: "自动",
+                image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 5,
+                make: "Mercedes-Benz",
+                model: "C-Class",
+                year: 2018,
+                price: 320000,
+                mileage: "70,000",
+                fuelType: "汽油",
+                transmission: "自动",
+                image: "https://images.unsplash.com/photo-1563720223488-8f2f62a6e71a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 6,
+                make: "Audi",
+                model: "A4",
+                year: 2019,
+                price: 265000,
+                mileage: "50,000",
+                fuelType: "汽油",
+                transmission: "自动",
+                image: "https://images.unsplash.com/photo-1555215318-6a1d597b90d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 7,
+                make: "Ford",
+                model: "Mustang",
+                year: 2020,
+                price: 385000,
+                mileage: "30,000",
+                fuelType: "汽油",
+                transmission: "自动",
+                image: "https://images.unsplash.com/photo-1563720223488-8f2f62a6e71a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 8,
+                make: "Volkswagen",
+                model: "Tiguan",
+                year: 2021,
+                price: 220000,
+                mileage: "35,000",
+                fuelType: "汽油",
+                transmission: "自动",
+                image: "https://images.unsplash.com/photo-1563720223488-8f2f62a6e71a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+            }
+        ];
+        
+        // 页面加载时显示相应页面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取当前页面（从URL参数或默认页面）
+            const urlParams = new URLSearchParams(window.location.search);
+            let page = urlParams.get('page') || 'add-car'; // 默认为发布车辆页
+            
+            // 更新导航栏活动状态
+            updateNavActive(page);
+            
+            // 加载页面内容
+            loadPageContent(page);
+            
+            // 为所有页面设置事件监听器
+            setupEventListeners();
+        });
+        
+        // 更新导航栏活动状态
+        function updateNavActive(page) {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                
+                if (page === 'add-car' && link.getAttribute('href') === 'add-car.html') {
+                    link.classList.add('active');
+                } else if (page === 'search' && link.getAttribute('href') === 'search.html') {
+                    link.classList.add('active');
+                } else if (page === 'car-details' && link.innerText.includes('详情')) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        // 加载页面内容
+        function loadPageContent(page) {
+            const mainContent = document.getElementById('main-content');
+            
+            if (pageData[page]) {
+                mainContent.innerHTML = pageData[page].content;
+                
+                // 如果加载的是搜索页，则生成车辆列表
+                if (page === 'search') {
+                    renderCarList();
+                }
+            } else {
+                // 默认显示发布车辆页
+                mainContent.innerHTML = pageData['add-car'].content;
+            }
+        }
+        
+        // 渲染车辆列表
+        function renderCarList() {
+            const carResults = document.getElementById('carResults');
+            if (!carResults) return;
+            
+            let html = '';
+            
+            carData.forEach(car => {
+                html += `
+                    <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
+                        <div class="card car-card">
+                            ${car.featured ? '<span class="featured-badge">精品推荐</span>' : ''}
+                            <img src="${car.image}" class="card-img-top car-image" alt="${car.make} ${car.model}">
+                            <div class="card-body">
+                                <span class="car-year">${car.year}</span>
+                                <h5 class="car-make">${car.make} ${car.model}</h5>
+                                <p class="car-model">${car.transmission} | ${car.fuelType} | ${car.mileage}公里</p>
+                                <div class="car-feature">
+                                    <i class="fas fa-tachometer-alt"></i> ${car.mileage}公里
+                                </div>
+                                <div class="car-feature">
+                                    <i class="fas fa-gas-pump"></i> ${car.fuelType}
+                                </div>
+                                <div class="car-feature">
+                                    <i class="fas fa-cog"></i> ${car.transmission}
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <div class="car-price">¥${car.price.toLocaleString()}</div>
+                                    <button class="btn btn-sm btn-outline-primary view-details-btn" data-id="${car.id}">
+                                        查看详情
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            carResults.innerHTML = html;
+            
+            // 更新结果计数
+            const resultCount = document.getElementById('resultCount');
+            if (resultCount) {
+                resultCount.textContent = `(${carData.length} 辆车)`;
+            }
+            
+            // 为查看详情按钮添加事件监听器
+            document.querySelectorAll('.view-details-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const carId = this.getAttribute('data-id');
+                    showNotification('正在跳转到车辆详情页...', 'info');
+                    
+                    // 在实际应用中，这里会跳转到实际的详情页
+                    // 这里我们只是模拟跳转
+                    setTimeout(() => {
+                        window.location.href = 'index.html?page=car-details';
+                    }, 1000);
+                });
+            });
+        }
+        
+        // 设置事件监听器
+        function setupEventListeners() {
+            // 表单提交事件
+            document.addEventListener('submit', function(e) {
+                if (e.target && e.target.id === 'addCarForm') {
+                    e.preventDefault();
+                    showNotification('车辆发布成功！我们将尽快审核您的信息。', 'success');
+                }
+                
+                if (e.target && e.target.id === 'searchForm') {
+                    e.preventDefault();
+                    showNotification('正在搜索车辆...', 'info');
+                    
+                    // 模拟搜索延迟
+                    setTimeout(() => {
+                        showNotification('找到8辆符合要求的车辆', 'success');
+                    }, 1000);
+                }
+            });
+            
+            // 联系卖家按钮
+            document.addEventListener('click', function(e) {
+                if (e.target && e.target.id === 'contactSellerBtn') {
+                    showNotification('已向卖家发送联系请求，卖家将尽快与您联系！', 'success');
+                }
+                
+                // 预览按钮
+                if (e.target && e.target.id === 'previewBtn') {
+                    showNotification('这是预览功能，在实际应用中会显示车辆发布预览。', 'info');
+                }
+            });
+        }
+        
+        // 显示通知
+        function showNotification(message, type = 'success') {
+            const notification = document.querySelector('.notification');
+            const notificationText = document.getElementById('notification-text');
+            
+            if (!notification || !notificationText) return;
+            
+            // 更新消息和类型
+            notificationText.textContent = message;
+            
+            const alert = notification.querySelector('.alert');
+            alert.className = `alert alert-${type} alert-dismissible fade show`;
+            
+            // 显示通知
+            notification.style.display = 'block';
+            
+            // 5秒后自动隐藏
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 5000);
+        }
+        
+        // 简单路由功能
+        function navigateTo(page) {
+            // 更新URL参数
+            const url = new URL(window.location);
+            url.searchParams.set('page', page);
+            window.history.pushState({}, '', url);
+            
+            // 更新页面内容
+            updateNavActive(page);
+            loadPageContent(page);
+            
+            // 滚动到顶部
+            window.scrollTo(0, 0);
+        }
+        
+        // 监听浏览器前进/后退按钮
+        window.addEventListener('popstate', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const page = urlParams.get('page') || 'add-car';
+            updateNavActive(page);
+            loadPageContent(page);
+        });
+        
+        // 为导航链接添加点击事件（单页应用功能）
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.closest('a')) {
+                const link = e.target.closest('a');
+                const href = link.getAttribute('href');
+                
+                // 拦截内部链接点击
+                if (href && (href.includes('add-car.html') || href.includes('search.html'))) {
+                    e.preventDefault();
+                    
+                    let page = 'add-car';
+                    if (href.includes('search.html')) page = 'search';
+                    
+                    navigateTo(page);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
