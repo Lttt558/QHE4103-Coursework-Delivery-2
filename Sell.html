@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell Your Car - CarNext</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: #f4f7fc;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #0a2b3e;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo span { color: #f9a825; }
+        .logo { font-size: 1.7rem; font-weight: bold; }
+
+        .nav-links {
+            display: flex;
+            gap: 1.2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .main-container {
+            margin-top: 85px;
+            padding: 2rem;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+            padding: 2.5rem;
+        }
+
+        h2 {
+            text-align: center;
+            color: #0a2b3e;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1f3b4a;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 16px;
+            font-size: 16px;
+        }
+
+        input:focus {
+            outline: 2px solid #f9a825;
+            border-color: transparent;
+        }
+
+        .error-msg {
+            color: #d9534f;
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background-color: #f9a825;
+            color: #0a2b3e;
+            border: none;
+            border-radius: 40px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover { background-color: #e69500; }
+
+        .warning {
+            background: #fff3cd;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .warning .btn {
+            display: inline-block;
+            background: #f9a825;
+            padding: 0.8rem 1.8rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #0a2b3e;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+
+        .message-banner {
+            background: #e9f5e9;
+            padding: 0.8rem;
+            border-radius: 60px;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: #0a2b3e;
+            color: #ccc;
+        }
+
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; gap: 0.6rem; }
+            .main-container { margin-top: 110px; padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">Car<span>Next</span></div>
+    <div class="nav-links">
+        <a href="Home.html">Home</a>
+        <a href="Search.html">Search Cars</a>
+        <a href="Sell.html">Sell Car</a>
+        <a href="Register.html">Register</a>
+        <a href="Login.html">Login</a>
+    </div>
+</nav>
+
+<main class="main-container">
+    <div class="container" id="sellContainer"></div>
+</main>
+
+<footer>
+    &copy; 2026 CarNext
+</footer>
+
+<script>
+    let vehicles = [];
+
+    function loadVehicles() {
+        const stored = localStorage.getItem('carnext_vehicles');
+        if(stored) {
+            vehicles = JSON.parse(stored);
+        } else {
+            vehicles = [
+                { id: "v1", make: "Tesla", model: "Model 3", year: "2022", price: 42990, color: "Midnight Silver", location: "Austin, TX", imageLabel: "🚗", imageColor: "#c0d9e8", mileage: "15,000 mi", fuel: "Electric" },
+                { id: "v2", make: "Honda", model: "Accord", year: "2020", price: 23500, color: "Pearl White", location: "Orlando, FL", imageLabel: "🚙", imageColor: "#f0e6d2", mileage: "28,000 mi", fuel: "Gasoline" },
+                { id: "v3", make: "Ford", model: "Mustang", year: "2021", price: 37800, color: "Race Red", location: "Los Angeles, CA", imageLabel: "🏎️", imageColor: "#f4c3c3", mileage: "12,000 mi", fuel: "Gasoline" },
+                { id: "v4", make: "Chevrolet", model: "Silverado", year: "2019", price: 31200, color: "Black", location: "Dallas, TX", imageLabel: "🚛", imageColor: "#b0b7bc", mileage: "42,000 mi", fuel: "Diesel" }
+            ];
+            saveVehicles();
+        }
+    }
+
+    function saveVehicles() {
+        localStorage.setItem('carnext_vehicles', JSON.stringify(vehicles));
+    }
+
+    function addVehicle(vehicle) {
+        const newId = Date.now().toString();
+        const newVehicle = {
+            ...vehicle,
+            id: newId,
+            imageLabel: "🚘",
+            imageColor: "#d9e1e8",
+            mileage: "New",
+            fuel: "Gasoline"
+        };
+        vehicles.push(newVehicle);
+        saveVehicles();
+        return newVehicle;
+    }
+
+    // Regex validations
+    function validateMakeModel(value) {
+        return /^[A-Za-z0-9\s\-]{2,30}$/.test(value.trim());
+    }
+    function validateYear(year) {
+        const yearNum = parseInt(year);
+        return /^\d{4}$/.test(year) && yearNum >= 1900 && yearNum <= 2026;
+    }
+    function validatePrice(price) {
+        const num = parseFloat(price);
+        return !isNaN(num) && num > 0 && num < 1000000;
+    }
+    function validateColor(color) {
+        return /^[A-Za-z\s\-]{2,30}$/.test(color.trim());
+    }
+    function validateLocation(location) {
+        return /^[A-Za-z\s,.]{2,50}$/.test(location.trim());
+    }
+
+    function renderSellForm() {
+        const logged = sessionStorage.getItem('carnext_seller_logged');
+        const container = document.getElementById('sellContainer');
+
+        if(!logged) {
+            container.innerHTML = `
+                <div class="warning">
+                    <h2>🔐 Login Required</h2>
+                    <p>You must be logged in as a seller to list a vehicle.</p>
+                    <a href="login.html" class="btn">Go to Login</a>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = `
+            <h2>Sell Your Car</h2>
+            <form id="addCarForm">
+                <div class="form-group">
+                    <label>Make *</label>
+                    <input type="text" id="make" placeholder="e.g., Toyota">
+                    <div id="makeError" class="error-msg"></div>
+                </div>
+                <div class="form-group">
+                    <label>Model *</label>
+                    <input type="text" id="model" placeholder="e.g., Camry">
+                    <div id="modelError" class="error-msg"></div>
+                </div>
+                <div class="form-group">
+                    <label>Year * (1900-2026)</label>
+                    <input type="number" id="year" placeholder="e.g., 2023">
+                    <div id="yearError" class="error-msg"></div>
+                </div>
+                <div class="form-group">
+                    <label>Price * ($)</label>
+                    <input type="number" id="price" placeholder="e.g., 25000">
+                    <div id="priceError" class="error-msg"></div>
+                </div>
+                <div class="form-group">
+                    <label>Color *</label>
+                    <input type="text" id="color" placeholder="e.g., Blue">
+                    <div id="colorError" class="error-msg"></div>
+                </div>
+                <div class="form-group">
+                    <label>Location *</label>
+                    <input type="text" id="location" placeholder="e.g., Miami, FL">
+                    <div id="locationError" class="error-msg"></div>
+                </div>
+                <button type="submit" class="btn-submit">Publish Listing</button>
+            </form>
+            <div id="message"></div>
+        `;
+
+        const form = document.getElementById('addCarForm');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const make = document.getElementById('make').value;
+            const model = document.getElementById('model').value;
+            const year = document.getElementById('year').value;
+            const price = document.getElementById('price').value;
+            const color = document.getElementById('color').value;
+            const location = document.getElementById('location').value;
+
+            document.getElementById('makeError').innerText = '';
+            document.getElementById('modelError').innerText = '';
+            document.getElementById('yearError').innerText = '';
+            document.getElementById('priceError').innerText = '';
+            document.getElementById('colorError').innerText = '';
+            document.getElementById('locationError').innerText = '';
+
+            let isValid = true;
+
+            if(!validateMakeModel(make)) {
+                document.getElementById('makeError').innerText = 'Make must be 2-30 letters/numbers.';
+                isValid = false;
+            }
+            if(!validateMakeModel(model)) {
+                document.getElementById('modelError').innerText = 'Model must be 2-30 letters/numbers.';
+                isValid = false;
+            }
+            if(!validateYear(year)) {
+                document.getElementById('yearError').innerText = 'Enter valid year (1900-2026).';
+                isValid = false;
+            }
+            if(!validatePrice(price)) {
+                document.getElementById('priceError').innerText = 'Enter a valid price.';
+                isValid = false;
+            }
+            if(!validateColor(color)) {
+                document.getElementById('colorError').innerText = 'Color must be letters only.';
+                isValid = false;
+            }
+            if(!validateLocation(location)) {
+                document.getElementById('locationError').innerText = 'Location required.';
+                isValid = false;
+            }
+
+            if(isValid) {
+                addVehicle({
+                    make: make.trim(),
+                    model: model.trim(),
+                    year: year,
+                    price: parseFloat(price),
+                    color: color.trim(),
+                    location: location.trim()
+                });
+                document.getElementById('message').innerHTML = '<div class="message-banner">✅ Vehicle listed! <a href="search.html">View in Search</a></div>';
+                form.reset();
+            }
+        });
+    }
+
+    loadVehicles();
+    renderSellForm();
+</script>
+</body>
+</html>
