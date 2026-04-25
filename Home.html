@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>CarNext - Premium Used Cars</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, 'Segoe UI', 'Roboto', sans-serif;
+        }
+
+        body {
+            background: #f4f7fc;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #0a2b3e;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.7rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #f9a825;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+            padding: 0.4rem 0.2rem;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links a:hover {
+            border-bottom-color: #f9a825;
+            color: #f9a825;
+        }
+
+        .main-container {
+            margin-top: 85px;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+            padding: 2rem 2rem 2.5rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #0a2b3e;
+        }
+
+        h2 {
+            margin: 1.5rem 0 1rem;
+            color: #1e4a6e;
+        }
+
+        .btn {
+            background: #f9a825;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 40px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #0a2b3e;
+            display: inline-block;
+            text-decoration: none;
+            margin-right: 1rem;
+        }
+
+        .btn:hover {
+            background: #e69500;
+            transform: scale(0.98);
+        }
+
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.8rem;
+            margin-top: 2rem;
+        }
+
+        .car-card {
+            background: #ffffff;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: 0.2s;
+            cursor: pointer;
+            border: 1px solid #eaeef2;
+        }
+
+        .car-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+        }
+
+        .car-img {
+            width: 100%;
+            height: 180px;
+            background: #d9e1e8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #2c5a7a;
+        }
+
+        .car-info {
+            padding: 1rem 1.2rem 1.3rem;
+        }
+
+        .car-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .car-detail-line {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.4rem 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: #0a2b3e;
+            color: #ccc;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 0.6rem;
+                padding: 0.8rem;
+            }
+            .main-container {
+                margin-top: 110px;
+                padding: 1rem;
+            }
+            .container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">Car<span>Next</span></div>
+    <div class="nav-links">
+        <a href="Home.html">Home</a>
+        <a href="Search.html">Search Cars</a>
+        <a href="Sell.html">Sell Car</a>
+        <a href="Register.html">Register</a>
+        <a href="Login.html">Login</a>
+    </div>
+</nav>
+
+<main class="main-container">
+    <div class="container">
+        <h1>Your trusted pre-owned car marketplace</h1>
+        <p style="font-size:1.2rem; margin-bottom:2rem;">Find quality used cars, list your vehicle, and drive with confidence.</p>
+        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+            <a href="search.html" class="btn">🔍 Search Cars</a>
+            <a href="sell.html" class="btn">💰 Sell Your Car</a>
+        </div>
+        <h2>🔥 Featured Listings</h2>
+        <div class="grid-cards" id="featuredGrid"></div>
+    </div>
+</main>
+
+<footer>
+    &copy; 2026 CarNext – Trusted Pre-owned Vehicle Exchange
+</footer>
+
+<script>
+    let vehicles = [];
+
+    function loadVehicleData() {
+        const stored = localStorage.getItem('carnext_vehicles');
+        if(stored) {
+            vehicles = JSON.parse(stored);
+        } else {
+            vehicles = [
+                { id: "v1", make: "Tesla", model: "Model 3", year: "2022", price: 42990, color: "Midnight Silver", location: "Austin, TX", imageLabel: "🚗", imageColor: "#c0d9e8", mileage: "15,000 mi", fuel: "Electric" },
+                { id: "v2", make: "Honda", model: "Accord", year: "2020", price: 23500, color: "Pearl White", location: "Orlando, FL", imageLabel: "🚙", imageColor: "#f0e6d2", mileage: "28,000 mi", fuel: "Gasoline" },
+                { id: "v3", make: "Ford", model: "Mustang", year: "2021", price: 37800, color: "Race Red", location: "Los Angeles, CA", imageLabel: "🏎️", imageColor: "#f4c3c3", mileage: "12,000 mi", fuel: "Gasoline" },
+                { id: "v4", make: "Chevrolet", model: "Silverado", year: "2019", price: 31200, color: "Black", location: "Dallas, TX", imageLabel: "🚛", imageColor: "#b0b7bc", mileage: "42,000 mi", fuel: "Diesel" }
+            ];
+            saveVehicles();
+        }
+    }
+
+    function saveVehicles() {
+        localStorage.setItem('carnext_vehicles', JSON.stringify(vehicles));
+    }
+
+    function renderFeatured() {
+        const container = document.getElementById('featuredGrid');
+        if(!container) return;
+        const featuredCars = vehicles.slice(0, 3);
+        container.innerHTML = '';
+        featuredCars.forEach(car => {
+            const card = document.createElement('div');
+            card.className = 'car-card';
+            card.innerHTML = `
+                <div class="car-img" style="background:${car.imageColor || '#d9e1e8'}">${car.imageLabel || '🚗'}</div>
+                <div class="car-info">
+                    <h3>${car.make || 'Unknown'} ${car.model || 'Unknown'} (${car.year || 'N/A'})</h3>
+                    <div class="car-detail-line"><span>$${(car.price || 0).toLocaleString()}</span><span>📍${car.location || 'N/A'}</span></div>
+                </div>
+            `;
+            card.addEventListener('click', () => {
+                window.location.href = 'search.html?detail=' + car.id;
+            });
+            container.appendChild(card);
+        });
+    }
+
+    loadVehicleData();
+    renderFeatured();
+</script>
+</body>
+</html>
