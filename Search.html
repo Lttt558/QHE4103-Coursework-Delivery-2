@@ -5,9 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Cars - CarNext</title>
     <style>
-        :root { --primary: #f9a825; --gray: #f3f4f6; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: system-ui, 'Segoe UI', sans-serif; background: var(--gray); }
+        :root {
+            --primary: #f9a825;
+            --gray: #f3f4f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, 'Segoe UI', sans-serif;
+            background: var(--gray);
+        }
         
         .navbar {
             position: fixed;
@@ -24,13 +36,43 @@
             z-index: 1000;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .logo { font-size: 1.7rem; font-weight: bold; }
-        .logo span { color: #f9a825; }
-        .nav-links { display: flex; gap: 1.2rem; flex-wrap: wrap; }
-        .nav-links a { color: white; text-decoration: none; font-weight: 500; padding: 0.4rem 0.2rem; border-bottom: 2px solid transparent; }
-        .nav-links a:hover { border-bottom-color: #f9a825; color: #f9a825; }
+
+        .logo {
+            font-size: 1.7rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #f9a825;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+            padding: 0.4rem 0.2rem;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links a:hover {
+            border-bottom-color: #f9a825;
+            color: #f9a825;
+        }
         
-        .main-container { margin-top: 85px; padding: 2rem; min-height: calc(100vh - 85px); }
+        .main-container {
+            margin-top: 85px;
+            padding: 2rem;
+            min-height: calc(100vh - 85px);
+        }
+
         .search-header {
             max-width: 1280px;
             margin: 0 auto 2rem auto;
@@ -43,22 +85,96 @@
             align-items: center;
             gap: 1rem;
         }
-        .search-bar { display: flex; gap: 10px; flex-wrap: wrap; }
-        input, select { padding: 12px; border: 1px solid #ddd; border-radius: 16px; font-size: 14px; }
-        button { padding: 12px 24px; background: var(--primary); color: #0a2b3e; border: none; border-radius: 40px; cursor: pointer; font-weight: bold; }
-        button:hover { background: #e69500; }
+
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        input, select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 16px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 12px 24px;
+            background: var(--primary);
+            color: #0a2b3e;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: bold;
+        }
         
-        .container { max-width: 1280px; margin: 0 auto; }
-        .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+        button:hover {
+            background: #e69500;
+        }
         
-        .car-card { background: #fff; border-radius: 24px; overflow: hidden; transition: transform 0.2s; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
-        .car-card:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
-        .car-img { width: 100%; height: 200px; display: flex; align-items: center; justify-content: center; font-size: 4rem; background: #d9e1e8; }
-        .car-info { padding: 20px; }
-        .car-title { font-size: 1.3rem; font-weight: bold; margin: 0 0 10px 0; color: #0a2b3e; }
-        .car-price { color: #f9a825; font-size: 1.5rem; font-weight: bold; }
-        .car-year { color: #666; font-size: 14px; margin-top: 5px; }
-        .car-location { color: #888; font-size: 13px; }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .car-card {
+            background: #fff;
+            border-radius: 24px;
+            overflow: hidden;
+            transition: transform 0.2s;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .car-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+        }
+
+        .car-img {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            background: #d9e1e8;
+        }
+
+        .car-info {
+            padding: 20px;
+        }
+
+        .car-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+            color: #0a2b3e;
+        }
+
+        .car-price {
+            color: #f9a825;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .car-year {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .car-location {
+            color: #888;
+            font-size: 13px;
+        }
         
         .detail-view {
             background: white;
@@ -67,18 +183,73 @@
             max-width: 1000px;
             margin: 0 auto;
         }
-        .detail-img { width: 100%; height: 300px; display: flex; align-items: center; justify-content: center; font-size: 8rem; background: #d9e1e8; border-radius: 24px; margin-bottom: 1.5rem; }
-        .detail-specs { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
-        .spec-item { background: #f8f9fa; padding: 1rem; border-radius: 16px; }
-        .spec-label { color: #666; font-size: 0.8rem; }
-        .spec-value { font-size: 1.1rem; font-weight: bold; color: #0a2b3e; }
-        .back-btn { background: #f9a825; border: none; padding: 12px 24px; border-radius: 40px; cursor: pointer; font-weight: bold; margin-top: 1rem; }
+
+        .detail-img {
+            width: 100%;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+            background: #d9e1e8;
+            border-radius: 24px;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .spec-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 16px;
+        }
+
+        .spec-label {
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .spec-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #0a2b3e;
+        }
+
+        .back-btn {
+            background: #f9a825;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
         
-        footer { text-align: center; padding: 1.5rem; background: #0a2b3e; color: #ccc; margin-top: 2rem; }
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: #0a2b3e;
+            color: #ccc;
+            margin-top: 2rem;
+        }
+
         @media (max-width: 768px) {
-            .navbar { flex-direction: column; gap: 0.6rem; }
-            .main-container { margin-top: 110px; padding: 1rem; }
-            .search-header { flex-direction: column; }
+            .navbar {
+                flex-direction: column;
+                gap: 0.6rem;
+            }
+            .main-container {
+                margin-top: 110px;
+                padding: 1rem;
+            }
+            .search-header {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
