@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CarNext</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, 'Segoe UI', 'Roboto', Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #0a2b3e;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.7rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #f9a825;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+            padding: 0.4rem 0.2rem;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links a:hover {
+            border-bottom-color: #f9a825;
+            color: #f9a825;
+        }
+
+        .main-container {
+            margin-top: 85px;
+            padding: 2rem;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Login Box - 整合您的样式 */
+        .auth-box {
+            background: white;
+            width: 100%;
+            max-width: 460px;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #0a2b3e;
+            font-size: 1.8rem;
+        }
+
+        .form-item {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #f9a825;
+            box-shadow: 0 0 0 3px rgba(249,168,37,0.1);
+        }
+
+        .error-msg {
+            color: #d93025;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background: #f9a825;
+            color: #0a2b3e;
+            border: none;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #e69500;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+
+        .register-link a {
+            color: #f9a825;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .message-banner {
+            background: #e9f5e9;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 15px;
+            color: #2e7d32;
+        }
+
+        .error-banner {
+            background: #ffe0e0;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 15px;
+            color: #d93025;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: #0a2b3e;
+            color: #ccc;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 0.6rem;
+                padding: 0.8rem;
+            }
+            .main-container {
+                margin-top: 110px;
+                padding: 1rem;
+            }
+            .auth-box {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">Car<span>Next</span></div>
+    <div class="nav-links">
+        <a href="Home.html">Home</a>
+        <a href="Search.html">Search Cars</a>
+        <a href="Sell.html">Sell Car</a>
+        <a href="Register.html">Register</a>
+        <a href="Login.html">Login</a>
+    </div>
+</nav>
+
+<main class="main-container">
+    <div class="auth-box">
+        <h2>Seller Login</h2>
+        <form id="loginForm">
+            <div class="form-item">
+                <label>Username or Email</label>
+                <input type="text" id="login-user" placeholder="Enter your username or email">
+                <div class="error-msg" id="err-login-user">Username/Email is required</div>
+            </div>
+            <div class="form-item">
+                <label>Password</label>
+                <input type="password" id="login-pwd" placeholder="Enter your password">
+                <div class="error-msg" id="err-login-pwd">Password is required</div>
+            </div>
+            <button type="submit" class="btn-submit">Login</button>
+        </form>
+        <div class="register-link">
+            Don't have an account? <a href="register.html">Register here</a>
+        </div>
+        <div id="loginMessage"></div>
+    </div>
+</main>
+
+<footer>
+    &copy; 2026 CarNext – Trusted Pre-owned Vehicle Exchange
+</footer>
+
+<script>
+    let registeredSellers = [];
+
+    function loadSellers() {
+        const stored = localStorage.getItem('carnext_sellers');
+        if(stored) {
+            registeredSellers = JSON.parse(stored);
+        } else {
+            registeredSellers = [];
+        }
+        console.log('Loaded sellers:', registeredSellers);
+    }
+
+    function saveSellers() {
+        localStorage.setItem('carnext_sellers', JSON.stringify(registeredSellers));
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        let userInput = document.getElementById('login-user').value.trim();
+        let password = document.getElementById('login-pwd').value.trim();
+        let valid = true;
+
+        // 隐藏所有错误消息
+        document.querySelectorAll('#loginForm .error-msg').forEach(m => m.style.display = 'none');
+        document.getElementById('loginMessage').innerHTML = '';
+
+        if(!userInput) {
+            document.getElementById('err-login-user').style.display = 'block';
+            valid = false;
+        }
+        if(!password) {
+            document.getElementById('err-login-pwd').style.display = 'block';
+            valid = false;
+        }
+
+        if(valid) {
+            // 支持使用 username 或 email 登录
+            const seller = registeredSellers.find(s => 
+                (s.username === userInput || s.email === userInput) && s.password === password
+            );
+            
+            if(seller) {
+                sessionStorage.setItem('carnext_seller_logged', JSON.stringify({
+                    username: seller.username,
+                    email: seller.email,
+                    name: seller.name
+                }));
+                document.getElementById('loginMessage').innerHTML = '<div class="message-banner">✅ Login successful! Redirecting...</div>';
+                setTimeout(() => {
+                    window.location.href = 'sell.html';
+                }, 1500);
+            } else {
+                document.getElementById('loginMessage').innerHTML = '<div class="error-banner">❌ Invalid username/email or password</div>';
+            }
+        }
+    });
+
+    loadSellers();
+</script>
+</body>
+</html>
