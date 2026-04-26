@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Cars - CarNext</title>
+    <style>
+        :root {
+            --primary: #f9a825;
+            --gray: #f3f4f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, 'Segoe UI', sans-serif;
+            background: var(--gray);
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #0a2b3e;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.7rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #f9a825;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+            padding: 0.4rem 0.2rem;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links a:hover {
+            border-bottom-color: #f9a825;
+            color: #f9a825;
+        }
+        
+        .main-container {
+            margin-top: 85px;
+            padding: 2rem;
+            min-height: calc(100vh - 85px);
+        }
+
+        .search-header {
+            max-width: 1280px;
+            margin: 0 auto 2rem auto;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        input, select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 16px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 12px 24px;
+            background: var(--primary);
+            color: #0a2b3e;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background: #e69500;
+        }
+        
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .car-card {
+            background: #fff;
+            border-radius: 24px;
+            overflow: hidden;
+            transition: transform 0.2s;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .car-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+        }
+
+        .car-img {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            background: #d9e1e8;
+        }
+
+        .car-info {
+            padding: 20px;
+        }
+
+        .car-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+            color: #0a2b3e;
+        }
+
+        .car-price {
+            color: #f9a825;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .car-year {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .car-location {
+            color: #888;
+            font-size: 13px;
+        }
+        
+        .detail-view {
+            background: white;
+            border-radius: 28px;
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .detail-img {
+            width: 100%;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+            background: #d9e1e8;
+            border-radius: 24px;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .spec-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 16px;
+        }
+
+        .spec-label {
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .spec-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #0a2b3e;
+        }
+
+        .back-btn {
+            background: #f9a825;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: #0a2b3e;
+            color: #ccc;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 0.6rem;
+            }
+            .main-container {
+                margin-top: 110px;
+                padding: 1rem;
+            }
+            .search-header {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">Car<span>Next</span></div>
+    <div class="nav-links">
+        <a href="Home.html">Home</a>
+        <a href="Search.html">Search Cars</a>
+        <a href="Sell.html">Sell Car</a>
+        <a href="Register.html">Register</a>
+        <a href="Login.html">Login</a>
+    </div>
+</nav>
+
+<main class="main-container" id="mainContainer">
+    <!-- Dynamic content -->
+</main>
+
+<footer>
+    &copy; 2026 CarNext – Trusted Pre-owned Vehicle Exchange
+</footer>
+
+<script>
+    let vehicles = [];
+
+    function loadVehicles() {
+        const stored = localStorage.getItem('carnext_vehicles');
+        if(stored) {
+            vehicles = JSON.parse(stored);
+        } else {
+            vehicles = [
+                { id: "v1", make: "Tesla", model: "Model 3", year: "2022", price: 42990, color: "Midnight Silver", location: "Austin, TX", imageLabel: "🚗", imageColor: "#c0d9e8", mileage: "15,000 mi", fuel: "Electric" },
+                { id: "v2", make: "Honda", model: "Accord", year: "2020", price: 23500, color: "Pearl White", location: "Orlando, FL", imageLabel: "🚙", imageColor: "#f0e6d2", mileage: "28,000 mi", fuel: "Gasoline" },
+                { id: "v3", make: "Ford", model: "Mustang", year: "2021", price: 37800, color: "Race Red", location: "Los Angeles, CA", imageLabel: "🏎️", imageColor: "#f4c3c3", mileage: "12,000 mi", fuel: "Gasoline" },
+                { id: "v4", make: "Chevrolet", model: "Silverado", year: "2019", price: 31200, color: "Black", location: "Dallas, TX", imageLabel: "🚛", imageColor: "#b0b7bc", mileage: "42,000 mi", fuel: "Diesel" }
+            ];
+            saveVehicles();
+        }
+    }
+
+    function saveVehicles() {
+        localStorage.setItem('carnext_vehicles', JSON.stringify(vehicles));
+    }
+
+    function renderSearchPage() {
+        document.getElementById('mainContainer').innerHTML = `
+            <div>
+                <div class="search-header">
+                    <div class="search-bar">
+                        <input type="text" id="searchInput" placeholder="Make/Model...">
+                        <select id="yearFilter">
+                            <option value="all">All Years</option>
+                            ${[...new Set(vehicles.map(v => v.year))].sort((a,b)=>b-a).map(y => `<option value="${y}">${y}</option>`).join('')}
+                        </select>
+                        <button onclick="performSearch()">🔍 Search</button>
+                    </div>
+                    <a href="sell.html"><button>+ Sell Car</button></a>
+                </div>
+                <div class="container">
+                    <div id="carList" class="car-grid"></div>
+                </div>
+            </div>
+        `;
+        performSearch();
+    }
+
+    function performSearch() {
+        const keyword = document.getElementById('searchInput')?.value.toLowerCase() || '';
+        const year = document.getElementById('yearFilter')?.value || 'all';
+        
+        const filtered = vehicles.filter(car => {
+            const fullName = `${car.make} ${car.model}`.toLowerCase();
+            const matchKeyword = keyword === '' || fullName.includes(keyword);
+            const matchYear = year === 'all' || car.year == year;
+            return matchKeyword && matchYear;
+        });
+        
+        const container = document.getElementById('carList');
+        if(!container) return;
+        
+        if(filtered.length === 0) {
+            container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No vehicles found. Try different criteria.</p>';
+            return;
+        }
+        
+        container.innerHTML = filtered.map(car => `
+            <div class="car-card" onclick="showDetail('${car.id}')">
+                <div class="car-img" style="background:${car.imageColor}">${car.imageLabel}</div>
+                <div class="car-info">
+                    <h3 class="car-title">${car.make} ${car.model} (${car.year})</h3>
+                    <div class="car-price">$${car.price.toLocaleString()}</div>
+                    <div class="car-year">🎨 ${car.color}</div>
+                    <div class="car-location">📍 ${car.location}</div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function showDetail(vehicleId) {
+        const car = vehicles.find(v => v.id === vehicleId);
+        if(!car) return;
+        document.getElementById('mainContainer').innerHTML = `
+            <div class="detail-view">
+                <button class="back-btn" onclick="renderSearchPage()">← Back to Search</button>
+                <div class="detail-img" style="background:${car.imageColor}">${car.imageLabel}</div>
+                <h1 style="margin: 1rem 0 0.5rem;">${car.make} ${car.model} (${car.year})</h1>
+                <h2 style="color:#f9a825; margin-bottom:1rem;">$${car.price.toLocaleString()}</h2>
+                <div class="detail-specs">
+                    <div class="spec-item"><div class="spec-label">Make</div><div class="spec-value">${car.make}</div></div>
+                    <div class="spec-item"><div class="spec-label">Model</div><div class="spec-value">${car.model}</div></div>
+                    <div class="spec-item"><div class="spec-label">Year</div><div class="spec-value">${car.year}</div></div>
+                    <div class="spec-item"><div class="spec-label">Color</div><div class="spec-value">${car.color}</div></div>
+                    <div class="spec-item"><div class="spec-label">Location</div><div class="spec-value">${car.location}</div></div>
+                    <div class="spec-item"><div class="spec-label">Mileage</div><div class="spec-value">${car.mileage}</div></div>
+                    <div class="spec-item"><div class="spec-label">Fuel Type</div><div class="spec-value">${car.fuel}</div></div>
+                </div>
+                <div style="display:flex; gap:1rem; margin-top:1.5rem;">
+                    <button class="back-btn" onclick="alert('Message sent to seller!')">📧 Contact Seller</button>
+                    <button class="back-btn" style="background:#0a2b3e; color:white;" onclick="alert('Test drive booked!')">🚗 Book Test Drive</button>
+                </div>
+            </div>
+        `;
+    }
+
+    function handleInitialDetail() {
+        const params = new URLSearchParams(window.location.search);
+        const detailId = params.get('detail');
+        if(detailId && vehicles.find(v => v.id === detailId)) {
+            showDetail(detailId);
+        } else {
+            renderSearchPage();
+        }
+    }
+
+    loadVehicles();
+    handleInitialDetail();
+    
+    window.performSearch = performSearch;
+    window.showDetail = showDetail;
+    window.renderSearchPage = renderSearchPage;
+</script>
+</body>
+</html>
