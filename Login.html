@@ -74,7 +74,6 @@
             align-items: center;
         }
 
-        /* Login Box - 整合您的样式 */
         .auth-box {
             background: white;
             width: 100%;
@@ -265,7 +264,6 @@
         let password = document.getElementById('login-pwd').value.trim();
         let valid = true;
 
-        // 隐藏所有错误消息
         document.querySelectorAll('#loginForm .error-msg').forEach(m => m.style.display = 'none');
         document.getElementById('loginMessage').innerHTML = '';
 
@@ -279,7 +277,6 @@
         }
 
         if(valid) {
-            // 支持使用 username 或 email 登录
             const seller = registeredSellers.find(s => 
                 (s.username === userInput || s.email === userInput) && s.password === password
             );
