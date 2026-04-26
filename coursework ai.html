@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Car Sale Seller System</title>
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+body{
+    background:#f4f4f4;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+.auth-box{
+    background:white;
+    width:100%;
+    max-width:460px;
+    padding:35px;
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+.tab-group{
+    display:flex;
+    margin-bottom:25px;
+    border-bottom:1px solid #ddd;
+}
+.tab{
+    flex:1;
+    padding:12px;
+    text-align:center;
+    cursor:pointer;
+    font-weight:500;
+    color:#666;
+}
+.tab.active{
+    color:#0066cc;
+    border-bottom:2px solid #0066cc;
+}
+.form-panel{
+    display:none;
+}
+.form-panel.active{
+    display:block;
+}
+h2{
+    text-align:center;
+    margin-bottom:25px;
+    color:#222;
+}
+.form-item{
+    margin-bottom:18px;
+}
+label{
+    display:block;
+    margin-bottom:6px;
+    color:#333;
+    font-size:14px;
+}
+input{
+    width:100%;
+    padding:11px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    font-size:15px;
+}
+input:focus{
+    outline:none;
+    border-color:#0066cc;
+}
+.error-msg{
+    color:#d93025;
+    font-size:12px;
+    margin-top:4px;
+    display:none;
+}
+.btn-submit{
+    width:100%;
+    padding:12px;
+    background:#0066cc;
+    color:white;
+    border:none;
+    border-radius:6px;
+    font-size:16px;
+    cursor:pointer;
+    margin-top:8px;
+}
+.btn-submit:hover{
+    background:#0052aa;
+}
+</style>
+</head>
+<body>
+<div class="auth-box">
+    <div class="tab-group">
+        <div class="tab active" onclick="showPanel('login-panel')">Login</div>
+        <div class="tab" onclick="showPanel('register-panel')">Register</div>
+    </div>
+
+    <div id="login-panel" class="form-panel active">
+        <h2>Seller Login</h2>
+        <form id="loginForm">
+            <div class="form-item">
+                <label>Username</label>
+                <input type="text" id="login-user">
+                <div class="error-msg" id="err-login-user">Username is required</div>
+            </div>
+            <div class="form-item">
+                <label>Password</label>
+                <input type="password" id="login-pwd">
+                <div class="error-msg" id="err-login-pwd">Password is required</div>
+            </div>
+            <button type="submit" class="btn-submit">Login</button>
+        </form>
+    </div>
+
+    <div id="register-panel" class="form-panel">
+        <h2>Seller Registration</h2>
+        <form id="registerForm">
+            <div class="form-item">
+                <label>Full Name</label>
+                <input type="text" id="reg-name">
+                <div class="error-msg" id="err-name">Only letters and spaces allowed</div>
+            </div>
+            <div class="form-item">
+                <label>Address</label>
+                <input type="text" id="reg-address">
+                <div class="error-msg" id="err-address">Only letters, numbers and spaces allowed</div>
+            </div>
+            <div class="form-item">
+                <label>Phone Number (China)</label>
+                <input type="text" id="reg-phone">
+                <div class="error-msg" id="err-phone">Valid 11-digit Chinese phone required</div>
+            </div>
+            <div class="form-item">
+                <label>Email</label>
+                <input type="text" id="reg-email">
+                <div class="error-msg" id="err-email">Valid email (.com/.cn) required</div>
+            </div>
+            <div class="form-item">
+                <label>Username (min 6 alphanumeric)</label>
+                <input type="text" id="reg-user">
+                <div class="error-msg" id="err-user">Min 6 alphanumeric characters</div>
+            </div>
+            <div class="form-item">
+                <label>Password (min 6 alphanumeric)</label>
+                <input type="password" id="reg-pwd">
+                <div class="error-msg" id="err-pwd">Min 6 alphanumeric characters</div>
+            </div>
+            <button type="submit" class="btn-submit">Register</button>
+        </form>
+    </div>
+</div>
+
+<script>
+function showPanel(id){
+    document.querySelectorAll('.form-panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+}
+
+document.getElementById('loginForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    let user = document.getElementById('login-user').value.trim();
+    let pwd = document.getElementById('login-pwd').value.trim();
+    let valid = true;
+
+    document.querySelectorAll('#loginForm .error-msg').forEach(m=>m.style.display='none');
+
+    if(!user){document.getElementById('err-login-user').style.display='block';valid=false;}
+    if(!pwd){document.getElementById('err-login-pwd').style.display='block';valid=false;}
+
+    if(valid) alert('Login Successfully');
+});
+
+document.getElementById('registerForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    let valid = true;
+
+    let name = document.getElementById('reg-name').value.trim();
+    let address = document.getElementById('reg-address').value.trim();
+    let phone = document.getElementById('reg-phone').value.trim();
+    let email = document.getElementById('reg-email').value.trim();
+    let username = document.getElementById('reg-user').value.trim();
+    let pwd = document.getElementById('reg-pwd').value.trim();
+
+    document.querySelectorAll('#registerForm .error-msg').forEach(m=>m.style.display='none');
+
+    if(!/^[A-Za-z\s]+$/.test(name)){
+        document.getElementById('err-name').style.display='block'; valid=false;
+    }
+
+    if(!/^[A-Za-z0-9\s]+$/.test(address)){
+        document.getElementById('err-address').style.display='block'; valid=false;
+    }
+
+    if(!/^1[3-9]\d{9}$/.test(phone)){
+        document.getElementById('err-phone').style.display='block'; valid=false;
+    }
+
+    if(!/^[^@]+@[^@]+\.(com|cn)$/.test(email)){
+        document.getElementById('err-email').style.display='block'; valid=false;
+    }
+
+    if(!/^[A-Za-z0-9]{6,}$/.test(username)){
+        document.getElementById('err-user').style.display='block'; valid=false;
+    }
+
+    if(!/^[A-Za-z0-9]{6,}$/.test(pwd)){
+        document.getElementById('err-pwd').style.display='block'; valid=false;
+    }
+
+    if(valid){
+        alert('Registration Completed');
+        this.reset();
+        showPanel('login-panel');
+    }
+});
+</script>
+</body>
+</html>
